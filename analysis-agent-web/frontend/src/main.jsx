@@ -40,7 +40,13 @@ function App() {
 
     try {
       const runRes = await fetch(`${API_BASE}/api/run-id`, { method: "POST" });
-      const { runId } = await runRes.json();
+      const runText = await runRes.text();
+
+      if (!runRes.ok) {
+        throw new Error(runText);
+      }
+
+      const { runId } = JSON.parse(runText);
 
       const form = new FormData();
       form.append("userOrder", userOrder);
@@ -61,8 +67,18 @@ function App() {
         body: form
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.logs || data.detail || data.error || "분석 실패");
+      const text = await res.text();
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(text.slice(0, 1000));
+      }
+
+      if (!res.ok) {
+        throw new Error(data.logs || data.detail || data.error || "분석 실패");
+      }
       setResult(data);
     } catch (e) {
       setError(e.message);
