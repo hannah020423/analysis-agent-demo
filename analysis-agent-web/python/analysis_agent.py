@@ -35,9 +35,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import re
 
-import tkinter as tk
-from tkinter import filedialog
-
 from config import IMAGE_EXTS, MANUAL_THRESHOLDS
 from dataset_loader import (
     list_images,
@@ -255,9 +252,6 @@ def run_demo(
         print("[DEBUG IMAGE]", p.relative_to(input_dir))
 
 def select_folder(title="Select Folder"):
-    root = tk.Tk()
-    root.withdraw()  # tkinter 기본 창 숨김
-    folder = filedialog.askdirectory(title=title)
     return Path(folder) if folder else None
 
 def parse_args() -> argparse.Namespace:
