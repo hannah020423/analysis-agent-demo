@@ -9,21 +9,26 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const ROOT_DIR = path.resolve(__dirname, "..");
 const FRONTEND_DIST = path.join(ROOT_DIR, "frontend", "dist");
+
+const UPLOAD_ROOT = path.join(ROOT_DIR, "uploads");
+const OUTPUT_ROOT = path.join(ROOT_DIR, "outputs");
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const ROOT_DIR = path.resolve(__dirname, "..");
-const UPLOAD_ROOT = path.join(ROOT_DIR, "uploads");
-const OUTPUT_ROOT = path.join(ROOT_DIR, "outputs");
+
+
 const PYTHON_SCRIPT = process.env.PYTHON_SCRIPT || path.join(ROOT_DIR, "python", "crew_pipeline.py");
 const PYTHON_BIN = process.env.PYTHON_BIN || "python3";
 
